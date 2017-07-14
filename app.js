@@ -8,6 +8,8 @@ const Activity = require('./models/activity');
 
 
 // app.use('/api',router);
+
+
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
