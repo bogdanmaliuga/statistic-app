@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
 app.get('/',function(req,res) {
-  res.json({message:"Марік мути апку,СУКА"});
+  res.json({message:"Марік мути апку"});
 
 });
 
