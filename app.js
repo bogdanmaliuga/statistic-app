@@ -17,6 +17,9 @@ app.get('/',function(req,res) {
   res.json({message:"Марік мути апку,СУКА"});
 
 });
+app.get('/user',function(req,res) {
+  res.json({message:"ІДИ НАХУЙ"})
+})
 
  app.listen(process.env.PORT || 5000)
  console.log('starting application. Good job');
