@@ -4,6 +4,7 @@ var app = express(); // define our app using express
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Bear = require('./app/models/bear');
+var Project = require ('./app/models/project');
 mongoose.connect('mongodb://admin:1234@ds129733.mlab.com:29733/cat_for_hour', {useMongoClient: true}); // connect to our database
 mongoose.Promise = require('bluebird')
 // configure app to use bodyParser()
@@ -23,44 +24,43 @@ router.use(function(req, res, next) {
     next(); // make sure we go to the next routes and don't stop here
 });
 
-// test route to make sure everything is working (accessed at GET http://localhost:8080/api)
+
 router.get('/', function(req, res) {
     res.json({message: 'hooray! welcome to our api!'});
 });
 
-// more routes for our API will happen here
-router.route('/bears')
-//post
-    .post(function(req, res) {
+router.route('/projects')
+  .post(function(req,res) {
+    var project = new Project();
+    project.name=req.body.name;
+    project.github_url=req.body.github_url;
+    project.technologies=req.body.technologies;
 
-    var bear = new Bear(); // create a new instance of the Bear model
-    bear.name = req.body.name; // set the bears name (comes from the request)
-
-    // save the bear and check for errors
-    bear.save(function(err) {
-        if (err)
-            res.send(err);
-
-        res.json({message: 'Bear created!'});
+    project.save(function (err) {
+      if(err)
+          res.sen(err);
+      res.json({message:'Project Created'})
     });
 
-}).get(function(req, res) {
-    Bear.find(function(err, bears) {
-        if (err)
-            res.send(err);
+  }).get(function (req,res) {
+      Project.find(function(err,projects) {
+        if(err)
+          res.send(err)
+        res.json(projects)
+      })
 
-        res.json(bears);
-    });
-});
-router.route('/bears/:bear_id').get(function(req, res) {
-    Bear.findById(req.params.bear_id, function(err, bear) {
-        if (err)
-            res.send(err);
-        res.json(bear);
-    });
+  })
+router.route('/projects/:project_id').get(function (req,res) {
+  console.log(req.params.project_id)
+    Project.findById(req.params.project_id,function (err,project) {
+      if(err)
+        res.send(err);
+      console.log(project)
+      res.json(project)
+    })
 }).put(function(req, res) {
 
-    Bear.findById(req.params.bear_id, function(err, bear) {
+    Bear.findById(req.params.project_id, function(err, bear) {
 
         if (err)
             res.send(err);
